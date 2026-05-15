@@ -1,6 +1,48 @@
+'use client';
+
 import Link from "next/link";
+import { ExternalLink, Link as LinkIcon, MapPin, Mail, Phone } from "lucide-react";
+import { useRef, useState } from "react";
+import ProjectModal from "@/components/ProjectModal";
 
 export default function Home() {
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [modalPosition, setModalPosition] = useState<{ x: number; y: number } | undefined>();
+  const hoverCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearHoverTimer = () => {
+    if (hoverCloseTimer.current) {
+      clearTimeout(hoverCloseTimer.current);
+      hoverCloseTimer.current = null;
+    }
+  };
+
+  const handleProjectHover = (projectTitle: string, event: React.MouseEvent) => {
+    clearHoverTimer();
+    setHoveredProject(projectTitle);
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    setModalPosition({
+      x: rect.right + 10,
+      y: rect.top,
+    });
+  };
+
+  const closeHoverModal = () => {
+    setHoveredProject(null);
+    setModalPosition(undefined);
+  };
+
+  const handleProjectLeave = () => {
+    hoverCloseTimer.current = setTimeout(closeHoverModal, 120);
+  };
+
+  const handleModalEnter = () => {
+    clearHoverTimer();
+  };
+
+  const handleModalLeave = () => {
+    hoverCloseTimer.current = setTimeout(closeHoverModal, 120);
+  };
   const projects = [
     {
       title: "NovaMart Dashboard",
@@ -59,38 +101,40 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50">
+    <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="font-bold text-xl">
+      <nav className="sticky top-0 z-50 glass-nav border-b border-slate-200/40 dark:border-white/10">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <Link href="/" className="font-semibold text-xl tracking-tight">
             YB
           </Link>
-          <div className="flex gap-6 items-center">
-            <a href="#projects" className="hover:text-blue-600 dark:hover:text-blue-400">
+          <div className="flex flex-wrap items-center gap-5 text-slate-300">
+            <a href="#projects" className="transition hover:text-white">
               Projects
             </a>
-            <a href="#skills" className="hover:text-blue-600 dark:hover:text-blue-400">
+            <a href="#skills" className="transition hover:text-white">
               Skills
             </a>
-            <a href="#contact" className="hover:text-blue-600 dark:hover:text-blue-400">
+            <a href="#contact" className="transition hover:text-white">
               Contact
             </a>
-            <div className="flex gap-3">
+            <div className="flex items-center gap-3">
               <a
                 href="https://www.linkedin.com/in/yog-batra-661798179/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-600 dark:hover:text-blue-400"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-blue-400/30 hover:text-white"
               >
+                <LinkIcon size={16} />
                 LinkedIn
               </a>
               <a
                 href="https://github.com/ybgero"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-600 dark:hover:text-blue-400"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-blue-400/30 hover:text-white"
               >
+                <ExternalLink size={16} />
                 GitHub
               </a>
             </div>
@@ -99,55 +143,62 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 py-20 md:py-32">
-        <div className="max-w-3xl">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Yog Batra</h1>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-8">
-            Data Analyst with a background in computer science. I use tools like Alteryx, SQL, and Power BI to solve real business problems.
+      <section className="hero-pattern max-w-6xl mx-auto px-6 py-24 md:py-32 animate-fade-up">
+        <div className="max-w-3xl relative z-10">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight hero-gradient">
+            Yog Batra
+          </h1>
+          <p className="text-xl md:text-2xl text-slate-300 mb-8 leading-relaxed max-w-3xl">
+            Data Analyst with a computer science foundation, building decision-grade dashboards and analytics systems using Power BI, SQL, Alteryx, and Python.
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <a
               href="https://www.linkedin.com/in/yog-batra-661798179/"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition"
+              className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-3 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
-              LinkedIn
+              View LinkedIn
             </a>
             <a
               href="https://github.com/ybgero"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-900 dark:text-white px-8 py-3 rounded-lg font-semibold transition"
+              className="inline-flex items-center justify-center rounded-full border border-slate-300/20 bg-white/5 px-7 py-3 text-sm font-semibold text-slate-100 transition hover:border-blue-400/40 hover:bg-white/10"
             >
-              GitHub
+              Explore GitHub
             </a>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="bg-slate-50 dark:bg-slate-900 py-20">
+      <section id="projects" className="bg-[#05080d] py-20 animate-fade-up">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-12">Projects</h2>
+          <h2 className="text-4xl font-bold mb-12 text-white">Projects</h2>
 
           {/* Featured Project */}
-          <div className="mb-16 bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-lg">
+          <div 
+            className="mb-16 rounded-3xl border border-slate-200/10 bg-white/5 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10"
+            onMouseEnter={(e) => handleProjectHover(projects[0].title, e)}
+            onMouseLeave={handleProjectLeave}
+          >
             <div className="p-8">
-              <h3 className="text-3xl font-bold mb-3">{projects[0].title}</h3>
-              <p className="text-blue-600 dark:text-blue-400 font-semibold mb-4">
+              <h3 className="text-3xl font-semibold mb-3 text-white">{projects[0].title}</h3>
+              <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
                 {projects[0].category}
-              </p>
-              <p className="text-lg text-slate-600 dark:text-slate-300 mb-6">
+              </span>
+              <p className="text-slate-300 mb-6 mt-5 text-lg leading-relaxed">
                 {projects[0].description}
               </p>
               <a
                 href={projects[0].link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+                className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
               >
                 View Project
+                <ExternalLink size={16} />
               </a>
             </div>
           </div>
@@ -157,22 +208,25 @@ export default function Home() {
             {projects.slice(1).map((project, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition p-6"
+                className="rounded-3xl border border-slate-200/10 bg-white/5 p-6 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10"
+                onMouseEnter={(e) => handleProjectHover(project.title, e)}
+                onMouseLeave={handleProjectLeave}
               >
-                <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                <p className="text-blue-600 dark:text-blue-400 text-sm font-semibold mb-3">
+                <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+                <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
                   {project.category}
-                </p>
-                <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
+                </span>
+                <p className="text-slate-300 mb-5 mt-4 text-sm leading-relaxed">
                   {project.description}
                 </p>
                 <a
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-400 transition hover:text-blue-200"
                 >
-                  View Project →
+                  View Project
+                  <ExternalLink size={16} />
                 </a>
               </div>
             ))}
@@ -181,77 +235,77 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="max-w-6xl mx-auto px-6 py-20">
+      <section id="skills" className="max-w-6xl mx-auto px-6 py-20 animate-fade-up">
         <h2 className="text-4xl font-bold mb-8">Skills & Tools</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="flex flex-wrap gap-3">
           {skills.map((skill, index) => (
-            <div
+            <span
               key={index}
-              className="bg-slate-100 dark:bg-slate-800 px-4 py-3 rounded-lg text-center font-semibold"
+              className="inline-flex items-center rounded-full border border-slate-200/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 shadow-sm"
             >
               {skill}
-            </div>
+            </span>
           ))}
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="bg-slate-50 dark:bg-slate-900 py-20">
+      <section id="contact" className="bg-black py-20 animate-fade-up">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-4xl font-bold mb-12">Contact</h2>
+          <h2 className="text-4xl font-bold mb-12 text-white">Contact</h2>
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div className="space-y-6">
               <div className="flex gap-4 items-start">
-                <span className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1">📍</span>
+                <MapPin className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-1">Address</h3>
-                  <p className="text-slate-600 dark:text-slate-300">
+                  <h3 className="font-semibold mb-1 text-slate-100">Address</h3>
+                  <p className="text-slate-400">
                     Selhurst, Croydon<br />
                     London, SE25
                   </p>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
-                <span className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1">📞</span>
+                <Phone className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-1">Phone</h3>
+                  <h3 className="font-semibold mb-1 text-slate-100">Phone</h3>
                   <a
                     href="tel:+447407077005"
-                    className="text-slate-600 dark:text-slate-300 hover:text-blue-600"
+                    className="text-slate-400 hover:text-white transition"
                   >
                     +447407077005
                   </a>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
-                <span className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1">✉️</span>
+                <Mail className="w-5 h-5 text-blue-400 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold mb-1">Email</h3>
+                  <h3 className="font-semibold mb-1 text-slate-100">Email</h3>
                   <a
                     href="mailto:yogbatra71@gmail.com"
-                    className="text-slate-600 dark:text-slate-300 hover:text-blue-600"
+                    className="text-slate-400 hover:text-white transition"
                   >
                     yogbatra71@gmail.com
                   </a>
                 </div>
               </div>
-              <div className="flex gap-4 pt-4 text-2xl">
+              <div className="flex gap-3 pt-4">
                 <a
                   href="https://www.linkedin.com/in/yog-batra-661798179/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:opacity-70"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/10 bg-white/5 text-slate-300 transition hover:border-blue-400/40 hover:text-white"
                 >
-                  🔗
+                  <ExternalLink size={18} />
                 </a>
                 <a
                   href="https://github.com/ybgero"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:opacity-70"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/10 bg-white/5 text-slate-300 transition hover:border-blue-400/40 hover:text-white"
                 >
-                  🐙
+                  <LinkIcon size={18} />
                 </a>
               </div>
             </div>
@@ -294,13 +348,28 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-8">
+      <footer className="bg-black text-white py-8">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <p className="text-slate-400">
             © {new Date().getFullYear()} Yog Batra. All rights reserved.
           </p>
         </div>
       </footer>
+
+      {/* Project Modal */}
+      {hoveredProject && (
+        <ProjectModal
+          projectName={hoveredProject}
+          description={
+            projects.find((p) => p.title === hoveredProject)?.description || ""
+          }
+          isVisible={!!hoveredProject}
+          onClose={() => setHoveredProject(null)}
+          onEnter={handleModalEnter}
+          onLeave={handleModalLeave}
+          position={modalPosition}
+        />
+      )}
     </div>
   );
 }
