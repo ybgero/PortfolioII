@@ -103,7 +103,7 @@ export default function ProjectModal({
 
           {details && (
             <div className="space-y-3">
-              {details.fileType === 'gif' && (
+              {(details.fileType === 'gif' || details.fileType === 'image') && (
                 <div className="relative w-full h-36 bg-slate-100 rounded-lg overflow-hidden">
                   <Image
                     src={details.fileUrl}

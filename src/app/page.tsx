@@ -21,10 +21,24 @@ export default function Home() {
     clearHoverTimer();
     setHoveredProject(projectTitle);
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    setModalPosition({
-      x: rect.right + 10,
-      y: rect.top,
-    });
+    const spacing = 10;
+    const modalWidth = 360; // matches ProjectModal maxWidth
+    const modalHeight = 380; // matches ProjectModal max-height
+
+    // Prefer to the right of the element, but if it would overflow, place to the left
+    let x = rect.right + spacing;
+    if (x + modalWidth > window.innerWidth - spacing) {
+      x = rect.left - spacing - modalWidth;
+      if (x < spacing) x = spacing;
+    }
+
+    // Keep modal vertically in viewport
+    let y = rect.top;
+    if (y + modalHeight > window.innerHeight - spacing) {
+      y = Math.max(spacing, window.innerHeight - modalHeight - spacing);
+    }
+
+    setModalPosition({ x, y });
   };
 
   const closeHoverModal = () => {
@@ -44,6 +58,13 @@ export default function Home() {
     hoverCloseTimer.current = setTimeout(closeHoverModal, 120);
   };
   const projects = [
+    {
+      title: "CleanPro",
+      category: "Design / Product",
+      description: "CleanPro guides users through a simple data preparation workflow",
+      link: "https://clean-pro-coral.vercel.app/",
+      featured: true,
+    },
     {
       title: "NovaMart Dashboard",
       category: "Power BI Project",
@@ -180,11 +201,15 @@ export default function Home() {
           {/* Featured Project */}
           <div 
             className="mb-16 rounded-3xl border border-slate-200/10 bg-white/5 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10"
-            onMouseEnter={(e) => handleProjectHover(projects[0].title, e)}
-            onMouseLeave={handleProjectLeave}
           >
             <div className="p-8">
-              <h3 className="text-3xl font-semibold mb-3 text-white">{projects[0].title}</h3>
+              <h3
+                className="text-3xl font-semibold mb-3 text-white"
+                onMouseEnter={(e) => handleProjectHover(projects[0].title, e)}
+                onMouseLeave={handleProjectLeave}
+              >
+                {projects[0].title}
+              </h3>
               <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
                 {projects[0].category}
               </span>
@@ -212,7 +237,13 @@ export default function Home() {
                 onMouseEnter={(e) => handleProjectHover(project.title, e)}
                 onMouseLeave={handleProjectLeave}
               >
-                <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+                <h3
+              className="text-xl font-semibold mb-3"
+              onMouseEnter={(e) => handleProjectHover(project.title, e)}
+              onMouseLeave={handleProjectLeave}
+            >
+              {project.title}
+            </h3>
                 <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
                   {project.category}
                 </span>

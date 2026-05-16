@@ -21,6 +21,7 @@ const projectFileMap: Record<string, string> = {
   'Customer Insights Dashboard': 'Customer Insight Dasboard.docx',
   'PlantCo. Performance Dashboard': 'PlantCo. Performance Dashboard.pdf',
   'Blockbuster Insights': 'Correlation(BudgetVsGross).pdf',
+  'CleanPro': 'CleanPro-User-Guide.pdf',
 };
 
 async function extractTextFromDOCX(filePath: string): Promise<string> {
@@ -69,6 +70,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Project name required' }, { status: 400 });
   }
 
+  // (CleanPro now has a local preview asset in public/project-details)
+
   const fileName = projectFileMap[projectName];
   if (!fileName) {
     return NextResponse.json({ error: 'Project details not found' }, { status: 404 });
@@ -93,6 +96,17 @@ export async function GET(request: NextRequest) {
     } else if (fileName.endsWith('.gif')) {
       fileType = 'gif';
       preview = '';
+    } else if (fileName.endsWith('.svg') || fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+      fileType = 'image';
+      preview = '';
+    }
+
+    // Fallback: if PDF extraction produced no preview, try a text fallback file
+    if (!preview && fileName.toLowerCase().includes('cleanpro')) {
+      const fallbackPath = path.join(projectDetailsDir, 'CleanPro-User-Guide.txt');
+      if (fs.existsSync(fallbackPath)) {
+        preview = fs.readFileSync(fallbackPath, 'utf8').trim().slice(0, 1200);
+      }
     }
 
     return NextResponse.json({
