@@ -63,6 +63,7 @@ export default function Home() {
       category: "Design / Product",
       description: "CleanPro guides users through a simple data preparation workflow",
       link: "https://clean-pro-coral.vercel.app/",
+      fileUrl: "/project-details/CleanPro-User-Guide.pdf",
       featured: true,
     },
     {
@@ -71,6 +72,7 @@ export default function Home() {
       description:
         "Built a centralized Power BI dashboard for a retail client, replacing Excel-based reports. Integrated sales, customer, and order data to track profitability, retention, and forecast vs. budget.",
       link: "https://github.com/ybgero/Portfolio/tree/main/NovaMart",
+      fileUrl: "/project-details/NovaMart  Dashboard.pdf",
       featured: true,
     },
     {
@@ -79,6 +81,7 @@ export default function Home() {
       description:
         "Comprehensive performance tracking system for marketing campaigns. Provides visibility into spend, reach, engagement, and revenue to optimize future campaigns across platforms.",
       link: "https://github.com/ybgero/Portfolio/tree/main/Campaign_Analysis",
+      fileUrl: "/project-details/CampaignPerformance Monitoring.gif",
     },
     {
       title: "HR Analytics Dashboard",
@@ -86,6 +89,7 @@ export default function Home() {
       description:
         "Interactive Power BI dashboard with actionable insights into hiring trends, employee performance, turnover, and diversity with dynamic KPIs and trend indicators.",
       link: "https://github.com/ybgero/Portfolio/tree/main/HR",
+      fileUrl: "/project-details/📊 HR Analytics Dashboard.pdf",
     },
     {
       title: "Customer Insights Dashboard",
@@ -93,6 +97,7 @@ export default function Home() {
       description:
         "Tracking 33+ customer metrics from tenure to basket size. Pinpoints where to refine marketing efforts and maximize customer lifetime value.",
       link: "https://github.com/ybgero/Portfolio/tree/main/Revenue_Report",
+      fileUrl: "/project-details/Customer Insight Dasboard.docx",
     },
     {
       title: "PlantCo. Performance Dashboard",
@@ -100,6 +105,7 @@ export default function Home() {
       description:
         "Business intelligence project focused on tracking gross profit trends across products, geographies, and time periods for a plant-based company.",
       link: "https://github.com/ybgero/Portfolio/tree/main/Performance%20Report",
+      fileUrl: "/project-details/PlantCo. Performance Dashboard.pdf",
     },
     {
       title: "Blockbuster Insights",
@@ -107,6 +113,7 @@ export default function Home() {
       description:
         "Analyzes the relationship between movie budgets and box office gross earnings using a dataset of 7,668 films (1980–2020).",
       link: "https://github.com/ybgero/Portfolio/tree/main/Python/Correlation(BudgetVsGross)",
+      fileUrl: "/project-details/Correlation(BudgetVsGross).pdf",
     },
   ];
 
@@ -132,6 +139,12 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-5 text-slate-300">
             <a href="#projects" className="transition hover:text-white">
               Projects
+            </a>
+            <a href="#experience" className="transition hover:text-white">
+              Experience
+            </a>
+            <a href="#education" className="transition hover:text-white">
+              Education
             </a>
             <a href="#skills" className="transition hover:text-white">
               Skills
@@ -189,6 +202,13 @@ export default function Home() {
             >
               Explore GitHub
             </a>
+            <a
+              href="/Resume-YB-APR.pdf"
+              download
+              className="inline-flex items-center justify-center rounded-full border border-blue-400/50 bg-blue-900/20 px-7 py-3 text-sm font-semibold text-blue-200 transition hover:border-blue-400 hover:bg-blue-800/30"
+            >
+              Download Resume (Updated: Apr 2026)
+            </a>
           </div>
         </div>
       </section>
@@ -200,7 +220,8 @@ export default function Home() {
 
           {/* Featured Project */}
           <div 
-            className="mb-16 rounded-3xl border border-slate-200/10 bg-white/5 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10"
+            className="mb-16 rounded-3xl border border-slate-200/10 bg-white/5 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10 cursor-pointer"
+            onClick={() => window.open(projects[0].fileUrl, '_blank')}
           >
             <div className="p-8">
               <h3
@@ -216,15 +237,28 @@ export default function Home() {
               <p className="text-slate-300 mb-6 mt-5 text-lg leading-relaxed">
                 {projects[0].description}
               </p>
-              <a
-                href={projects[0].link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-              >
-                View Project
-                <ExternalLink size={16} />
-              </a>
+              <div className="flex gap-4">
+                <a
+                  href={projects[0].fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  View Related Files
+                  <ExternalLink size={16} />
+                </a>
+                <a
+                  href={projects[0].link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-200/20 bg-transparent px-6 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  View Git Library
+                  <ExternalLink size={16} />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -233,9 +267,10 @@ export default function Home() {
             {projects.slice(1).map((project, index) => (
               <div
                 key={index}
-                className="rounded-3xl border border-slate-200/10 bg-white/5 p-6 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10"
+                className="rounded-3xl border border-slate-200/10 bg-white/5 p-6 shadow-sm transition hover:shadow-[0_18px_60px_-44px_rgba(59,130,246,0.65)] hover:bg-white/10 cursor-pointer flex flex-col"
                 onMouseEnter={(e) => handleProjectHover(project.title, e)}
                 onMouseLeave={handleProjectLeave}
+                onClick={() => window.open(project.fileUrl, '_blank')}
               >
                 <h3
               className="text-xl font-semibold mb-3"
@@ -244,23 +279,102 @@ export default function Home() {
             >
               {project.title}
             </h3>
-                <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
-                  {project.category}
-                </span>
-                <p className="text-slate-300 mb-5 mt-4 text-sm leading-relaxed">
+                <div className="mb-4">
+                  <span className="inline-flex items-center rounded-full border border-slate-200/20 bg-slate-950/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-slate-200">
+                    {project.category}
+                  </span>
+                </div>
+                <p className="text-slate-300 mb-5 text-sm leading-relaxed flex-grow">
                   {project.description}
                 </p>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-blue-400 transition hover:text-blue-200"
-                >
-                  View Project
-                  <ExternalLink size={16} />
-                </a>
+                <div className="flex flex-wrap gap-4 mt-auto">
+                  <a
+                    href={project.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-blue-400 transition hover:text-blue-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Related Files
+                    <ExternalLink size={16} />
+                  </a>
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 transition hover:text-white"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Git
+                    <ExternalLink size={16} />
+                  </a>
+                </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* Experience Section */}
+      <section id="experience" className="bg-[#05080d] py-20 animate-fade-up">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-4xl font-bold mb-12 text-white">Experience</h2>
+          <div className="space-y-8">
+            <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
+              <h3 className="text-2xl font-semibold text-white">Power BI Consultant</h3>
+              <p className="text-blue-400 mb-4">Graeme Hills Consultancy | United Kingdom | Aug–Nov 2024</p>
+              <ul className="list-disc list-inside text-slate-300 space-y-2 text-sm md:text-base">
+                <li>Reduced client reporting turnaround time by 60% by optimising Power BI data models and automating reporting workflows.</li>
+                <li>Delivered Power BI dashboards for law firm clients, enabling insights into billing, WIP, and matter profitability.</li>
+                <li>Built a Power BI P&L and legal reporting suite with automated pipelines.</li>
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
+              <h3 className="text-2xl font-semibold text-white">Senior Associate</h3>
+              <p className="text-blue-400 mb-4">Annalect | India | 2019–2023</p>
+              <ul className="list-disc list-inside text-slate-300 space-y-2 text-sm md:text-base">
+                <li>Reduced manual reporting time by 70% by developing Power BI dashboards and automated ETL pipelines using Alteryx and Python.</li>
+                <li>Improved APAC campaign ROI by 22% through meta-analysis of 14M+ campaign records.</li>
+                <li>Increased data accuracy by 40% and reduced QA time by 60% by designing automated URL taxonomy auditing workflows in Alteryx.</li>
+                <li>Supported 50+ stakeholders by delivering 15+ Power BI dashboards enabling campaign performance monitoring.</li>
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
+              <h3 className="text-2xl font-semibold text-white">Web Infrastructure Intern</h3>
+              <p className="text-blue-400 mb-4">Media Is You | India | 2019</p>
+              <ul className="list-disc list-inside text-slate-300 space-y-2 text-sm md:text-base">
+                <li>Standardised datasets and implemented validation rules to improve reporting accuracy, supporting A/B testing and optimising web content performance.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Education Section */}
+      <section id="education" className="max-w-6xl mx-auto px-6 py-20 animate-fade-up">
+        <h2 className="text-4xl font-bold mb-12 text-white">Education & Certifications</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
+            <h3 className="text-xl font-semibold text-white">MSc in Management (Sustainability Focus)</h3>
+            <p className="text-blue-400 mb-2">University of York | UK | 2023–2025</p>
+            <p className="text-slate-300 text-sm leading-relaxed mt-4">
+              <span className="font-semibold text-slate-200">Dissertation:</span> Leadership as a Tool for Innovation in the Technology Industry. Analysed how leadership styles influence innovation performance in technology firms.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
+            <h3 className="text-xl font-semibold text-white">B.Tech in Computer Science</h3>
+            <p className="text-blue-400 mb-2">MRIIS | India | 2015–2019</p>
+            <p className="text-slate-300 text-sm leading-relaxed mt-4">
+              Cloud Computing Specialisation.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10 md:col-span-2">
+            <h3 className="text-xl font-semibold text-white mb-4">Certifications</h3>
+            <ul className="list-disc list-inside text-slate-300 space-y-2">
+              <li>Alteryx Core Certification (2024)</li>
+              <li>Dbt (Data Build Tool) Badged</li>
+            </ul>
           </div>
         </div>
       </section>
