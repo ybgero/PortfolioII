@@ -323,7 +323,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="rounded-3xl border border-slate-200/10 bg-white/5 p-8 shadow-sm transition hover:bg-white/10">
               <h3 className="text-2xl font-semibold text-white">Power BI Consultant</h3>
-              <p className="text-blue-400 mb-4">Graeme Hills Consultancy | United Kingdom | Aug–Nov 2024</p>
+              <p className="text-blue-400 mb-4">Graeme Hills Consultancy | United Kingdom | Aug–Nov 2025</p>
               <ul className="list-disc list-inside text-slate-300 space-y-2 text-sm md:text-base">
                 <li>Reduced client reporting turnaround time by 60% by optimising Power BI data models and automating reporting workflows.</li>
                 <li>Delivered Power BI dashboards for law firm clients, enabling insights into billing, WIP, and matter profitability.</li>
